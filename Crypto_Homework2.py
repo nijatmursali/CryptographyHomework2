@@ -20,6 +20,7 @@ generator = int(input('Enter generator:'))
 secretkeyofAlice = int(input("Enter Alice's secret key:"))
 secretkeyofBob = int(input("Enter Bob's secret key:"))
 """
+
 #demo
 primenum = 17
 generator = 3
@@ -29,86 +30,130 @@ secretkeyofBob = 13
 
 #function for Diffie-Hellman
 #PublicKeyExchange
-
 publicKeyofAlice = (generator ** secretkeyofAlice) % primenum
-print("Public Key of Alice",publicKeyofAlice)
+#print("Public Key of Alice",publicKeyofAlice)
 publicKeyofBob = (generator ** secretkeyofBob) % primenum
-print("Public Key of Bob",publicKeyofBob)
+#print("Public Key of Bob",publicKeyofBob)
 
 #sharedkeys
 
 SecretKeyofAlice = (publicKeyofBob ** secretkeyofAlice) % primenum
 SecretKeyofBob = (publicKeyofAlice ** secretkeyofBob) % primenum
 
-print("Secret Key of Alice", SecretKeyofAlice)
-print("Secret Key of Bob", SecretKeyofBob)
+#print("Secret Key of Alice", SecretKeyofAlice)
+#print("Secret Key of Bob", SecretKeyofBob)
 
 print("\n")
-if SecretKeyofBob == SecretKeyofAlice:
-    print("Common secure key is:",SecretKeyofBob)
+#if SecretKeyofBob == SecretKeyofAlice:
+    #print("Common secure key is:",SecretKeyofBob)
+
 
 
 """ SECOND PART - CIPHER BLOCK CHAINING MODE OVER AES ALGORITHM"""
 
 #AES IMPLEMENTATION
 
-keyinAES = secretkeyofBob
+#keyinAES = secretkeyofBob
 print("\n")
-plaintext = input("Enter plain text for encryption:")
+#plaintext = input("Enter plain text for encryption:")
 
-print("\n")
-#print("Your plaintext is:", plaintext)
+result=[]
+def KeyExchange():
+    for res in result:
+        res.destroy()
+    try:
+        InputPrimeNumber=int(EntryforPrimeNumber.get())
+        InputGenerator=int(EntryforGenerator.get())
+        InputPublicKeyofAlice=int(EntryforPublicKeyAlice.get())
+        InputPublicKeyofBob=int(EntryforPublicKeyBob.get())
+        InputforPlainText = int(EntryforAddingPlainText.get())
+        output1=''
+        output2=''
 
+    except:
+        LabelforResult = Label(CrptoGUI, text ='Enter an positive integer!' )
+        LabelforResult.grid(row = 13, sticky = W)
+
+    '''
+    your code goes here
+    '''
+    #Function for Dillme Hellman
+    first = (InputGenerator ** InputPublicKeyofAlice) % InputPrimeNumber
+    second = (InputGenerator ** InputPublicKeyofBob) % InputPrimeNumber
+
+    firstfirst = (second ** InputPublicKeyofAlice) % InputPrimeNumber
+    secondsecond = (first ** InputPublicKeyofBob) % InputPrimeNumber
+
+    '''
+
+    '''
+    LabelforDH = Label(CrptoGUI, text = firstfirst)
+    LabelforDH.grid(row = 6, column = 1,  sticky = W )
+    result.append(LabelforDH)
+
+def KeyExch():
+    #global plaintext
+    #global firstfirst
+    KeyExchange()
 
 
 def QuittheApplication():
         CrptoGUI.destroy()
         return
 
-def pad(s):
-    return s + b"\0" * (AES.block_size - len(s) % AES.block_size)
-
-def encrypt(plaintext, keyinAES, key_size = 192):
-    message = pad(plaintext)
-    IV = Random.new().read(AES.block_size)
-    cipher = AES.new(keyinAES, AES.MODE_CBC, IV)
-    return IV + cipher.encrypt(plaintext)
+#End of Functions
 
 
+#Python GUI
+
+#Menu
 CrptoGUI = tkinter.Tk()
 CrptoGUI.title("Homework 2 by Nijat Mursali")
 CrptoGUI.minsize(width=300, height= 300)
 CrptoGUI.maxsize(width=400, height=400)
 CrptoGUI.configure(background = 'red')
 
-
-
+#Labels
 LabelforTeam = Label(CrptoGUI, text = 'This is the project of Team 6(I think)', relief = 'raise')
 LabelforBoshluq = Label(CrptoGUI, text = '\n', relief = 'raise')
 LabelforPrimeNumber = Label(CrptoGUI, text = 'Enter the prime number:')
 LabelforGenerator = Label(CrptoGUI, text = '   Enter the generator:     ', padx = 2, pady = 2)
 LabelforPublicKeyAlice  = Label(CrptoGUI, text = 'Enter Public Key of Alice:')
 LabelforPublicKeyBob  = Label(CrptoGUI, text = 'Enter Public Key of Bob: ', padx = 2, pady = 2)
+LabelforAddingPlainText  = Label(CrptoGUI, text = 'Enter the Plain Text: ', padx = 2, pady = 2)
+LabelforResult = Label(CrptoGUI, text = 'Result of the Cipher')
+LabelforDH = Label(CrptoGUI, text = 'Result of the DH')
 
 EntryforPrimeNumber = Entry(CrptoGUI)
 EntryforGenerator = Entry(CrptoGUI)
 EntryforPublicKeyAlice = Entry(CrptoGUI)
 EntryforPublicKeyBob = Entry(CrptoGUI)
+EntryforAddingPlainText = Entry(CrptoGUI)
+
 
 LabelforTeam.grid(columnspan = 2)
 LabelforPrimeNumber.grid(row = 2, column = 0, sticky = W)
 LabelforGenerator.grid(row = 3, column = 0, sticky = W)
 LabelforPublicKeyAlice.grid(row =4, column = 0, sticky = W)
 LabelforPublicKeyBob.grid(row = 5, column = 0, sticky = W)
+LabelforDH.grid(row =6, column = 0, sticky =W)
+LabelforAddingPlainText.grid(row = 7, column = 0, sticky = W)
+LabelforAddingPlainText.grid(row = 8, column = 0, sticky =W)
+LabelforResult.grid(row = 9, column = 0, sticky = W)
+
 
 EntryforPrimeNumber.grid(row = 2, column = 1)
 EntryforGenerator.grid(row = 3, column = 1)
 EntryforPublicKeyAlice.grid(row = 4, column =1)
 EntryforPublicKeyBob.grid(row = 5, column = 1)
+EntryforAddingPlainText.grid(row = 8, column = 1)
 
-ButtonforEncrpytion = Button(CrptoGUI, text = "Encrpyt", command = encrypt)
-ButtonforEncrpytion.grid(columnspan = 2)
+
+ButtonforDH = Button(CrptoGUI, text = "DH", command = KeyExch)
+ButtonforDH.grid(columnspan = 2)
+ButtonforEncrpytion = Button(CrptoGUI, text = "Encryption")
+ButtonforEncrpytion.grid(columnspan = 3)
 ButtonforQuit = Button(CrptoGUI, text = "Quit", command = QuittheApplication)
-ButtonforQuit.grid(columnspan = 3)
+ButtonforQuit.grid(columnspan = 4)
 
 CrptoGUI.mainloop()
