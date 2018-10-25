@@ -4,22 +4,17 @@ from tkinter import *
 import tkinter
 from Crypto import Random
 
-"""FIRST PART | DIFFIE - Hellman KEY EXCHANGE"""
-
 """
+FIRST PART | DIFFIE - Hellman KEY EXCHANGE
 #input variables
-
 primenum = int(input('Enter prime number:'))
 #print(primenum)
 generator = int(input('Enter generator:'))
 #print(generator)
-
-
-
 # secret keys of persons
 secretkeyofAlice = int(input("Enter Alice's secret key:"))
 secretkeyofBob = int(input("Enter Bob's secret key:"))
-"""
+
 
 #demo
 primenum = 17
@@ -46,16 +41,21 @@ SecretKeyofBob = (publicKeyofAlice ** secretkeyofBob) % primenum
 print("\n")
 #if SecretKeyofBob == SecretKeyofAlice:
     #print("Common secure key is:",SecretKeyofBob)
+"""
 
+def Encrpt():
+    InputforPlainText = int(EntryforAddingPlainText.get())
 
+    #AES = KEY, MODE, IV
+    IV = Random.new().read(16)
+    key = firstfirst
 
-""" SECOND PART - CIPHER BLOCK CHAINING MODE OVER AES ALGORITHM"""
+    cipher = AES.new(key, AES.MODE_CBC, IV)
+    msg = IV + cipher.encrypt(InputforPlainText)
 
-#AES IMPLEMENTATION
-
-#keyinAES = secretkeyofBob
-print("\n")
-#plaintext = input("Enter plain text for encryption:")
+    LabelforEncryptedText = Label(CrptoGUI, text = msg)
+    LabelforEncryptedText.grid(row = 10, column = 1,  sticky = W )
+    result.append(LabelforEncryptedText)
 
 result=[]
 def KeyExchange():
@@ -74,19 +74,14 @@ def KeyExchange():
         LabelforResult = Label(CrptoGUI, text ='Enter an positive integer!' )
         LabelforResult.grid(row = 13, sticky = W)
 
-    '''
-    your code goes here
-    '''
-    #Function for Dillme Hellman
+
+    #Function for DH
     first = (InputGenerator ** InputPublicKeyofAlice) % InputPrimeNumber
     second = (InputGenerator ** InputPublicKeyofBob) % InputPrimeNumber
 
     firstfirst = (second ** InputPublicKeyofAlice) % InputPrimeNumber
     secondsecond = (first ** InputPublicKeyofBob) % InputPrimeNumber
 
-    '''
-
-    '''
     LabelforDH = Label(CrptoGUI, text = firstfirst)
     LabelforDH.grid(row = 6, column = 1,  sticky = W )
     result.append(LabelforDH)
@@ -123,6 +118,7 @@ LabelforPublicKeyBob  = Label(CrptoGUI, text = 'Enter Public Key of Bob: ', padx
 LabelforAddingPlainText  = Label(CrptoGUI, text = 'Enter the Plain Text: ', padx = 2, pady = 2)
 LabelforResult = Label(CrptoGUI, text = 'Result of the Cipher')
 LabelforDH = Label(CrptoGUI, text = 'Result of the DH')
+LabelforEncryptedText = Label(CrptoGUI, text = 'Result of the Encryption:')
 
 EntryforPrimeNumber = Entry(CrptoGUI)
 EntryforGenerator = Entry(CrptoGUI)
@@ -140,7 +136,7 @@ LabelforDH.grid(row =6, column = 0, sticky =W)
 LabelforAddingPlainText.grid(row = 7, column = 0, sticky = W)
 LabelforAddingPlainText.grid(row = 8, column = 0, sticky =W)
 LabelforResult.grid(row = 9, column = 0, sticky = W)
-
+LabelforEncryptedText.grid(row = 10, column = 0, sticky = W)
 
 EntryforPrimeNumber.grid(row = 2, column = 1)
 EntryforGenerator.grid(row = 3, column = 1)
@@ -151,7 +147,7 @@ EntryforAddingPlainText.grid(row = 8, column = 1)
 
 ButtonforDH = Button(CrptoGUI, text = "DH", command = KeyExch)
 ButtonforDH.grid(columnspan = 2)
-ButtonforEncrpytion = Button(CrptoGUI, text = "Encryption")
+ButtonforEncrpytion = Button(CrptoGUI, text = "Encryption", command = Encrpt)
 ButtonforEncrpytion.grid(columnspan = 3)
 ButtonforQuit = Button(CrptoGUI, text = "Quit", command = QuittheApplication)
 ButtonforQuit.grid(columnspan = 4)
