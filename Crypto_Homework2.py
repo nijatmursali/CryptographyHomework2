@@ -43,20 +43,6 @@ print("\n")
     #print("Common secure key is:",SecretKeyofBob)
 """
 
-def Encrpt():
-    InputforPlainText = int(EntryforAddingPlainText.get())
-
-    #AES = KEY, MODE, IV
-    IV = Random.new().read(16)
-    key = firstfirst
-
-    cipher = AES.new(key, AES.MODE_CBC, IV)
-    msg = IV + cipher.encrypt(InputforPlainText)
-
-    LabelforEncryptedText = Label(CrptoGUI, text = msg)
-    LabelforEncryptedText.grid(row = 10, column = 1,  sticky = W )
-    result.append(LabelforEncryptedText)
-
 result=[]
 def KeyExchange():
     for res in result:
@@ -66,7 +52,7 @@ def KeyExchange():
         InputGenerator=int(EntryforGenerator.get())
         InputPublicKeyofAlice=int(EntryforPublicKeyAlice.get())
         InputPublicKeyofBob=int(EntryforPublicKeyBob.get())
-        InputforPlainText = int(EntryforAddingPlainText.get())
+        #InputforPlainText = int(EntryforAddingPlainText.get())
         output1=''
         output2=''
 
@@ -96,6 +82,23 @@ def QuittheApplication():
         CrptoGUI.destroy()
         return
 
+res = []
+def Encrpt():
+    #InputforPlainText = int(EntryforAddingPlainText.get())
+    for re in result:
+        re.destroy()
+
+    #AES = KEY, MODE, IV
+    IV = Random.new().read(16)
+    key = Random.new().read(16)
+    plaintext = Random.new().read(16)
+    cipher = AES.new(key, AES.MODE_CBC, IV)
+    msg = IV + cipher.encrypt(plaintext)
+
+    LabelforEncryptedText = Label(CrptoGUI, text = msg)
+    LabelforEncryptedText.grid(row = 10, column = 1,  sticky = W )
+    res.append(LabelforEncryptedText)
+
 #End of Functions
 
 
@@ -116,7 +119,6 @@ LabelforGenerator = Label(CrptoGUI, text = '   Enter the generator:     ', padx 
 LabelforPublicKeyAlice  = Label(CrptoGUI, text = 'Enter Public Key of Alice:')
 LabelforPublicKeyBob  = Label(CrptoGUI, text = 'Enter Public Key of Bob: ', padx = 2, pady = 2)
 LabelforAddingPlainText  = Label(CrptoGUI, text = 'Enter the Plain Text: ', padx = 2, pady = 2)
-LabelforResult = Label(CrptoGUI, text = 'Result of the Cipher')
 LabelforDH = Label(CrptoGUI, text = 'Result of the DH')
 LabelforEncryptedText = Label(CrptoGUI, text = 'Result of the Encryption:')
 
@@ -135,7 +137,7 @@ LabelforPublicKeyBob.grid(row = 5, column = 0, sticky = W)
 LabelforDH.grid(row =6, column = 0, sticky =W)
 LabelforAddingPlainText.grid(row = 7, column = 0, sticky = W)
 LabelforAddingPlainText.grid(row = 8, column = 0, sticky =W)
-LabelforResult.grid(row = 9, column = 0, sticky = W)
+#LabelforResult.grid(row = 9, column = 0, sticky = W)
 LabelforEncryptedText.grid(row = 10, column = 0, sticky = W)
 
 EntryforPrimeNumber.grid(row = 2, column = 1)
