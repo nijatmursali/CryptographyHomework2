@@ -71,7 +71,7 @@ def KeyExchange():
     LabelforDH = Label(CrptoGUI, text = firstfirst)
     LabelforDH.grid(row = 6, column = 1,  sticky = W )
     result.append(LabelforDH)
-
+    return firstfirst
 def KeyExch():
     #global plaintext
     #global firstfirst
@@ -84,14 +84,17 @@ def QuittheApplication():
 
 res = []
 def Encrpt():
-    #InputforPlainText = int(EntryforAddingPlainText.get())
-    for re in result:
+    InputforPlainText = EntryforAddingPlainText.get()
+    for re in res:
         re.destroy()
 
     #AES = KEY, MODE, IV
+    get_bin = lambda x, n: format(x, 'b').zfill(n)
+
     IV = Random.new().read(16)
-    key = Random.new().read(16)
-    plaintext = Random.new().read(16)
+    key =get_bin(KeyExchange(),16).encode("utf8")
+    f=((len(InputforPlainText)+15)//16)*16
+    plaintext = InputforPlainText.rjust(f, '0').encode("utf8")
     cipher = AES.new(key, AES.MODE_CBC, IV)
     msg = IV + cipher.encrypt(plaintext)
 
@@ -109,7 +112,7 @@ CrptoGUI = tkinter.Tk()
 CrptoGUI.title("Homework 2 by Nijat Mursali")
 CrptoGUI.minsize(width=300, height= 300)
 CrptoGUI.maxsize(width=400, height=400)
-CrptoGUI.configure(background = 'red')
+CrptoGUI.configure(background = 'grey')
 
 #Labels
 LabelforTeam = Label(CrptoGUI, text = 'This is the project of Team 6(I think)', relief = 'raise')
