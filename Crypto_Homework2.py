@@ -1,47 +1,31 @@
+"""
+
+This is the application that's created by Nijat Mursali(ADA BCS 2019)
+This application is created by using Tkinter GUI.
+If we talk about the program itself, it has 2 parts: first one is about implementing the DH key exchange
+and the second part is about implementing AES with CBC Mode.
+I added AES library by using the pycrypto(you can install simply by typing "pip install pycrypto"
+                                         (however Linux and Mac has the libraries installed))
+
+#DH key exchange
+I used GUI with this so the input will be added by the user by using .get() from input.
+                         After getting input the calculations for Bob and Alice starts.
+
+#AES with CBC Mode
+
+In Encrpt method I simply call the result that we got from DH method and encrypt with IV
+(I took IV randomly, however key is from KeyExchange method and user inputs the plaintext.)
+
+And finally CrptoGUI is for implementing Tkinter for GUI.
+
+"""
+
+
 #!/usr/bin/python3
 from Crypto.Cipher import AES
 from tkinter import *
 import tkinter
 from Crypto import Random
-
-"""
-FIRST PART | DIFFIE - Hellman KEY EXCHANGE
-#input variables
-primenum = int(input('Enter prime number:'))
-#print(primenum)
-generator = int(input('Enter generator:'))
-#print(generator)
-# secret keys of persons
-secretkeyofAlice = int(input("Enter Alice's secret key:"))
-secretkeyofBob = int(input("Enter Bob's secret key:"))
-
-
-#demo
-primenum = 17
-generator = 3
-secretkeyofAlice = 15
-secretkeyofBob = 13
-
-
-#function for Diffie-Hellman
-#PublicKeyExchange
-publicKeyofAlice = (generator ** secretkeyofAlice) % primenum
-#print("Public Key of Alice",publicKeyofAlice)
-publicKeyofBob = (generator ** secretkeyofBob) % primenum
-#print("Public Key of Bob",publicKeyofBob)
-
-#sharedkeys
-
-SecretKeyofAlice = (publicKeyofBob ** secretkeyofAlice) % primenum
-SecretKeyofBob = (publicKeyofAlice ** secretkeyofBob) % primenum
-
-#print("Secret Key of Alice", SecretKeyofAlice)
-#print("Secret Key of Bob", SecretKeyofBob)
-
-print("\n")
-#if SecretKeyofBob == SecretKeyofAlice:
-    #print("Common secure key is:",SecretKeyofBob)
-"""
 
 result=[]
 def KeyExchange():
@@ -57,21 +41,22 @@ def KeyExchange():
         output2=''
 
     except:
-        LabelforResult = Label(CrptoGUI, text ='Enter an positive integer!' )
-        LabelforResult.grid(row = 13, sticky = W)
+        LabelforResult = Label(CrptoGUI, text ='Enter an positive integer!' ) #if there's no integer included, this text will pop up
+        LabelforResult.grid(row = 15, sticky = W) #on 15th row
 
 
     #Function for DH
-    first = (InputGenerator ** InputPublicKeyofAlice) % InputPrimeNumber
-    second = (InputGenerator ** InputPublicKeyofBob) % InputPrimeNumber
+    Alice = (InputGenerator ** InputPublicKeyofAlice) % InputPrimeNumber
+    Bob = (InputGenerator ** InputPublicKeyofBob) % InputPrimeNumber
 
-    firstfirst = (second ** InputPublicKeyofAlice) % InputPrimeNumber
-    secondsecond = (first ** InputPublicKeyofBob) % InputPrimeNumber
+    FinalAnswerforAlice = (Bob ** InputPublicKeyofAlice) % InputPrimeNumber
+    FinalAnswerforBob = (Alice ** InputPublicKeyofBob) % InputPrimeNumber
 
-    LabelforDH = Label(CrptoGUI, text = firstfirst)
+    LabelforDH = Label(CrptoGUI, text = FinalAnswerforAlice)
     LabelforDH.grid(row = 6, column = 1,  sticky = W )
     result.append(LabelforDH)
-    return firstfirst
+    return FinalAnswerforAlice
+
 def KeyExch():
     #global plaintext
     #global firstfirst
@@ -91,11 +76,11 @@ def Encrpt():
     #AES = KEY, MODE, IV
     get_bin = lambda x, n: format(x, 'b').zfill(n)
 
-    IV = Random.new().read(16)
-    key =get_bin(KeyExchange(),16).encode("utf8")
+    IV = Random.new().read(16) #IV will be random value with 16 bytes
+    key =get_bin(KeyExchange(),16).encode("utf8") #key comes from DH(KeyExch that I created above)
     f=((len(InputforPlainText)+15)//16)*16
-    plaintext = InputforPlainText.rjust(f, '0').encode("utf8")
-    cipher = AES.new(key, AES.MODE_CBC, IV)
+    plaintext = InputforPlainText.rjust(f, '0').encode("utf8") #should be encoded because I'm using windows..
+    cipher = AES.new(key, AES.MODE_CBC, IV) #encrpytion
     msg = IV + cipher.encrypt(plaintext)
 
     LabelforEncryptedText = Label(CrptoGUI, text = msg)
@@ -110,12 +95,12 @@ def Encrpt():
 #Menu
 CrptoGUI = tkinter.Tk()
 CrptoGUI.title("Homework 2 by Nijat Mursali")
-CrptoGUI.minsize(width=300, height= 300)
-CrptoGUI.maxsize(width=400, height=400)
+CrptoGUI.minsize(width=350, height= 300)
+CrptoGUI.maxsize(width=350, height=300)
 CrptoGUI.configure(background = 'grey')
 
 #Labels
-LabelforTeam = Label(CrptoGUI, text = 'This is the project of Team 6(I think)', relief = 'raise')
+LabelforTeam = Label(CrptoGUI, text = 'This is the project of Team 5.', relief = 'raise')
 LabelforBoshluq = Label(CrptoGUI, text = '\n', relief = 'raise')
 LabelforPrimeNumber = Label(CrptoGUI, text = 'Enter the prime number:')
 LabelforGenerator = Label(CrptoGUI, text = '   Enter the generator:     ', padx = 2, pady = 2)
@@ -133,15 +118,15 @@ EntryforAddingPlainText = Entry(CrptoGUI)
 
 
 LabelforTeam.grid(columnspan = 2)
-LabelforPrimeNumber.grid(row = 2, column = 0, sticky = W)
-LabelforGenerator.grid(row = 3, column = 0, sticky = W)
-LabelforPublicKeyAlice.grid(row =4, column = 0, sticky = W)
-LabelforPublicKeyBob.grid(row = 5, column = 0, sticky = W)
-LabelforDH.grid(row =6, column = 0, sticky =W)
-LabelforAddingPlainText.grid(row = 7, column = 0, sticky = W)
-LabelforAddingPlainText.grid(row = 8, column = 0, sticky =W)
+LabelforPrimeNumber.grid(row = 2, column = 0, sticky = NSEW)
+LabelforGenerator.grid(row = 3, column = 0, sticky = NSEW)
+LabelforPublicKeyAlice.grid(row =4, column = 0, sticky = NSEW)
+LabelforPublicKeyBob.grid(row = 5, column = 0, sticky = NSEW)
+LabelforDH.grid(row =6, column = 0, sticky =NSEW)
+LabelforAddingPlainText.grid(row = 7, column = 0, sticky = NSEW)
+LabelforAddingPlainText.grid(row = 8, column = 0, sticky =NSEW)
 #LabelforResult.grid(row = 9, column = 0, sticky = W)
-LabelforEncryptedText.grid(row = 10, column = 0, sticky = W)
+LabelforEncryptedText.grid(row = 10, column = 0, sticky = NSEW)
 
 EntryforPrimeNumber.grid(row = 2, column = 1)
 EntryforGenerator.grid(row = 3, column = 1)
@@ -150,7 +135,7 @@ EntryforPublicKeyBob.grid(row = 5, column = 1)
 EntryforAddingPlainText.grid(row = 8, column = 1)
 
 
-ButtonforDH = Button(CrptoGUI, text = "DH", command = KeyExch)
+ButtonforDH = Button(CrptoGUI, text = "Diffie-Hellman Key Exchange", command = KeyExch)
 ButtonforDH.grid(columnspan = 2)
 ButtonforEncrpytion = Button(CrptoGUI, text = "Encryption", command = Encrpt)
 ButtonforEncrpytion.grid(columnspan = 3)
