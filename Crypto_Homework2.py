@@ -32,10 +32,10 @@ def KeyExchange():
     for res in result:
         res.destroy()
     try:
-        InputPrimeNumber=int(EntryforPrimeNumber.get())
-        InputGenerator=int(EntryforGenerator.get())
-        InputPublicKeyofAlice=int(EntryforPublicKeyAlice.get())
-        InputPublicKeyofBob=int(EntryforPublicKeyBob.get())
+        InputPrimeNumber=int(EntryforPrimeNumber.get()) #input for prime number
+        InputGenerator=int(EntryforGenerator.get()) #input for generator
+        InputPublicKeyofAlice=int(EntryforPublicKeyAlice.get()) #input for key of Alice
+        InputPublicKeyofBob=int(EntryforPublicKeyBob.get()) #input for key of Bob
         #InputforPlainText = int(EntryforAddingPlainText.get())
         output1=''
         output2=''
@@ -77,13 +77,13 @@ def Encrpt():
     get_bin = lambda x, n: format(x, 'b').zfill(n)
 
     IV = Random.new().read(16) #IV will be random value with 16 bytes
-    key =get_bin(KeyExchange(),16).encode("utf8") #key comes from DH(KeyExch that I created above)
+    keyfromDH =get_bin(KeyExchange(),16).encode("utf8") #key comes from DH(KeyExch that I created above)
     f=((len(InputforPlainText)+15)//16)*16
-    plaintext = InputforPlainText.rjust(f, '0').encode("utf8") #should be encoded because I'm using windows..
-    cipher = AES.new(key, AES.MODE_CBC, IV) #encrpytion
-    msg = IV + cipher.encrypt(plaintext)
+    plaintextfromuser = InputforPlainText.rjust(f, '0').encode("utf8") #should be encoded because I'm using windows..
+    ciphertext = AES.new(keyfromDH, AES.MODE_CBC, IV) #encrpytion
+    encrpytedmessage = IV + ciphertext.encrypt(plaintextfromuser)
 
-    LabelforEncryptedText = Label(CrptoGUI, text = msg)
+    LabelforEncryptedText = Label(CrptoGUI, text = encrpytedmessage)
     LabelforEncryptedText.grid(row = 10, column = 1,  sticky = W )
     res.append(LabelforEncryptedText)
 
