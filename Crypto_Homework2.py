@@ -142,4 +142,6 @@ ButtonforEncrpytion.grid(columnspan = 3)
 ButtonforQuit = Button(CrptoGUI, text = "Quit", command = QuittheApplication)
 ButtonforQuit.grid(columnspan = 4)
 
+
+
 CrptoGUI.mainloop()
