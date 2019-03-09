@@ -10,16 +10,11 @@ If we talk about the program itself, it has 2 parts: first one is about implemen
 and the second part is about implementing AES with CBC Mode.
 
 I added AES library by using the pycrypto(you can install simply by typing "pip install pycrypto"
-
-                                         (however Linux and Mac has the libraries installed))
-
-
+(however Linux and Mac has the libraries installed))
 
 #DH key exchange
 
-I used GUI with this so the input will be added by the user by using .get() from input.
-
-                         After getting input the calculations for Bob and Alice starts.
+I used GUI with this so the input will be added by the user by using .get() from input. After getting input the calculations for Bob and Alice starts.
 
 
 
